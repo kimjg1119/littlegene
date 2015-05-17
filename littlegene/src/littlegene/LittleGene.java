@@ -2,19 +2,18 @@ package littlegene;
 
 import java.util.Random;
 
-/*Ver 0.1
+/*Ver 0.2
  * 제작자 김준겸
- * MakeRandom 클래스 추가
- * LiveCondition 클래스 추가
- * Gene 클래스 추가
- * LittleGene, main 함수 추가
- * GeneController 클래스 틀 추가
+ * 확률들 추가
+ * GeneControler 클래스 정비 & 메소드 추가
+ * LiveConditon 클래스 정비
+ * Gene 클래스 메소드 추가
  * */
 
 class MakeRandom
 {
 	private Random ra=new Random();
-	private int dice(int a, int b)
+	int dice(int a, int b)
 	{
 		return 1+ra.nextInt(b-a);
 	}
@@ -33,10 +32,10 @@ class MakeRandom
 
 class LiveCondition
 {
-	private int[] airCon=new int[3]; //10,11,12 (A,B,C)
-	private int[] otherCon=new int[7]; //moveCon,watCon,neutCon,hotCon,coldCon,disCon,oxyCon
+	private char[] airCon=new char[]{'A','B','C'}; //10,11,12 (A,B,C)
+	private char[] otherCon=new char[]{'0','1','2','3','4','5','6'}; //moveCon,watCon,neutCon,hotCon,coldCon,disCon,oxyCon
 	
-	public int returnCon(int whCon)
+	public char returnCon(int whCon)
 	{
 		if(whCon>9)
 			return airCon[whCon-10];
@@ -47,7 +46,18 @@ class LiveCondition
 
 class geneControler
 {
+	private int howManyGene;
+	private int mutatePro; //1000단위
+	private Gene[] genePair=new Gene[howManyGene];
 	
+	public geneControler(int myManyGene)
+	{
+		howManyGene=myManyGene;
+	}
+	public void crossOver()
+	{
+		
+	}
 }
 
 class Gene
@@ -57,10 +67,36 @@ class Gene
 	private int[] gene=new int[geneLen];
 	private int[] geneOxy=new int[geneOxyLen];
 	
-	public Gene(int myGeneLen, int myGeneOxyLen)
+	public void initGeneLen(int myGeneLen, int myGeneOxyLen)
 	{
 		geneLen=myGeneLen;
 		geneOxyLen=myGeneOxyLen;
+	}
+	public int returnGene(int wh)
+	{
+		return gene[wh];
+	}
+	public int returnOxyGene(int wh)
+	{
+		return geneOxy[wh];
+	}
+	public void setGene(int x, int wh)
+	{
+		gene[wh]=x;
+	}
+	public void setOxyGene(int x, int wh)
+	{
+		geneOxy[wh]=x;
+	}
+	public void mutate(int mutatePro)
+	{
+		int i;
+		MakeRandom mr=new MakeRandom();
+		for(i=0;i<geneLen;i++)
+		if(mr.dice(0,1000)<mutatePro)
+		{
+			setGene(mr.dice(0,6),i);
+		}
 	}
 }
 
